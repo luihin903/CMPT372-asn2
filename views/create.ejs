@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang = "en">
+
+    <head>
+        <meta charset = "UTF-8">
+        <title>Create Recipe</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel = "stylesheet" href = "create.css">
+        <script src = "create.js" defer></script>
+    </head>
+
+    <body>
+        
+        <form action = "/create" method = "post">
+            <input type = "text" name = "title" id = "title" placeholder = "Title" required>
+            <br><br>
+            <section class = "ingredients">
+                <span class = "1 order">1.</span>
+                <input name = "ingredient-1" placeholder = "Ingredient (1)" type = "text" required>
+                <input name = "amount-1" placeholder = "Amount (1)" type = "text" required>
+                <button class = "add" onclick = "addIngredient()" type = "button"><span class="glyphicon glyphicon-plus"></span></button>
+            </section>
+            <br>
+            <section class = "directions">
+                <span class = "1 order">1.</span>
+                <input name = "direction-1" class = "di" placeholder = "Direction (1)" type = "text" required>
+                <button class = "add" onclick = "addDirection()" type = "button"><span class = "glyphicon glyphicon-plus"></span></button>
+            </section>
+            <br>
+            <button type = "button" class = "action" style = "color: red; border: 1px solid red;" onclick = "location.reload()">RESET</button>
+            <button type = "submit" class = "action" style = "color: blue; border: 1px solid blue;">CREATE</button>
+        
+            <input name = "countI" value = 1 style = "visibility: hidden; position: fixed;" type = "number">
+            <input name = "countD" value = 1 style = "visibility: hidden; position: fixed;" type = "number">
+        
+        </form>
+
+    </body>
+
+</html>

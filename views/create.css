@@ -1,0 +1,67 @@
+form {
+    border: 1px solid black;
+    width: 50%;
+    margin: auto;
+    border-radius: 8px;
+}
+
+section {
+    border: 1px solid black;
+    border-radius: 8px;
+    width: 98%;
+    margin: auto;
+    font-size: 0px;
+}
+
+input {
+    width: 42%;
+    margin: 8px;
+    margin-left: 20px;
+    margin-right: 0px;
+    font-size: 16px;
+}
+
+input.di {
+    width: 87.25%;
+}
+
+#title {
+    width: 96%;
+    margin: 8px;
+    font-size: 32px;
+}
+
+.add, .delete {
+    border-radius: 50%;
+    border: 1px solid black;
+    width: 24px;
+    height: 24px;
+    font-size: 16px;
+    color: white;
+    cursor: pointer;
+    margin-left: 16px;
+}
+
+.add {
+    padding-left: 4px;
+    background-color: #00ff00;
+}
+
+.delete {
+    padding-left: 2.5px;
+    background-color: red;
+}
+
+span.order {
+    font-size: 16px;
+    margin: 8px;
+    margin-right: -8px;
+}
+
+button.action {
+    background-color: white;
+    width: 97%;
+    border-radius: 8px;
+    font-size: 16px;
+    margin: 8px;
+}
