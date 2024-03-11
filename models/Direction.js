@@ -14,8 +14,13 @@ module.exports = class Direction {
     }
 
     async save() {
-        var res = await pool.query("INSERT INTO directions (recipe_id, step, content) VALUES ($1, $2, $3) RETURNING id", [this.recipe_id, this.step, this.content]);
+        var res = await pool.query("INSERT INTO directions (recipe_id, step, content) VALUES ($1, $2, $3) RETURNING id;", [this.recipe_id, this.step, this.content]);
         this.id = await res.rows[0].id;
+    }
+
+    static async getByRecipe(id) {
+        var res = await pool.query("SELECT * FROM directions WHERE recipe_id = $1;", [id]);
+        return res.rows;
     }
 
 }

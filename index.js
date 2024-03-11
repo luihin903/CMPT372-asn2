@@ -14,8 +14,18 @@ app.set("views", path.join(__dirname, "./views"));
 app.use(express.static(path.join(__dirname, "views")));
 app.use(body_parser.urlencoded({extended: true}));
 
-app.get("/", (req, res) => {
-    return res.render("display");
+app.get("/", async(req, res) => {
+    var recipes = await Recipe.getAll();
+    return res.render("display", {"recipes":recipes});
+})
+
+app.get("/recipe/:id", async(req, res) => {
+
+    var recipe = await Recipe.getById(req.params.id);
+    var ingredients = await Ingredient.getByRecipe(req.params.id);
+    var directions = await Direction.getByRecipe(req.params.id);
+    
+    return res.render("detail", {"recipe" : recipe, "ingredients" : ingredients, "directions" : directions});
 })
 
 app.get("/create", (req, res) => {
@@ -23,7 +33,6 @@ app.get("/create", (req, res) => {
 })
 
 app.post("/create", async(req, res) => {
-    console.log(req.body);
 
     var recipe = new Recipe(req.body.title, req.body.countI, req.body.countD);
     await recipe.save();
@@ -38,7 +47,7 @@ app.post("/create", async(req, res) => {
         await direction.save();
     }
 
-    return res.send(req.body);
+    res.redirect("/");
 })
 
 app.listen(PORT);

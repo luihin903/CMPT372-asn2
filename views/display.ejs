@@ -7,6 +7,10 @@
     </head>
 
     <body>
+        <% recipes.forEach(function(recipe) { %>
+            <a href = "/recipe/<%= recipe.id %>"><%= recipe.title %></a>
+        <% }); %>
+        <br>
         <a href = "/create"><button>CREATE</button></a>
     </body>
 

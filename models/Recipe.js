@@ -15,4 +15,14 @@ module.exports = class Recipe {
         var res = await pool.query("INSERT INTO recipes (title, time) VALUES ($1, $2) RETURNING id", [this.title, this.time]);
         this.id = await res.rows[0].id;
     }
+
+    static async getAll() {
+        var res = await pool.query("SELECT * FROM recipes;");
+        return res.rows;
+    }
+
+    static async getById(id) {
+        var res = await pool.query("SELECT * FROM recipes WHERE id = $1", [id]);
+        return res.rows[0];
+    }
 }

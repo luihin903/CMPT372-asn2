@@ -1,7 +1,12 @@
+html {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 form {
     border: 1px solid black;
     width: 50%;
     margin: auto;
+    margin-top: 16px;
     border-radius: 8px;
 }
 
@@ -26,7 +31,7 @@ input.di {
 }
 
 #title {
-    width: 96%;
+    width: 97.5%;
     margin: 8px;
     font-size: 32px;
 }
@@ -39,7 +44,7 @@ input.di {
     font-size: 16px;
     color: white;
     cursor: pointer;
-    margin-left: 16px;
+    margin-left: 12px;
 }
 
 .add {
@@ -60,7 +65,7 @@ span.order {
 
 button.action {
     background-color: white;
-    width: 97%;
+    width: 97.5%;
     border-radius: 8px;
     font-size: 16px;
     margin: 8px;
