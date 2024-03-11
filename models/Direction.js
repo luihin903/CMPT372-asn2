@@ -23,4 +23,8 @@ module.exports = class Direction {
         return res.rows;
     }
 
+    static deleteByRecipe(id) {
+        pool.query("DELETE FROM directions WHERE recipe_id = $1", [id]);
+    }
+
 }

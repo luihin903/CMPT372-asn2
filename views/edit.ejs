@@ -4,31 +4,276 @@
     <head>
         <meta charset = "UTF-8">
         <title>Edit Recipe</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel = "stylesheet" href = "edit.css">
-        <script src = "edit.js" defer></script>
+        <link rel = "stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <style>
+            html {
+                font-family: Arial, Helvetica, sans-serif;
+            }
+
+            form {
+                border: 1px solid black;
+                width: 50%;
+                margin: auto;
+                margin-top: 16px;
+                border-radius: 8px;
+            }
+
+            section {
+                border: 1px solid black;
+                border-radius: 8px;
+                width: 98%;
+                margin: auto;
+                font-size: 0px;
+            }
+
+            input {
+                width: 42%;
+                margin: 8px;
+                margin-left: 20px;
+                margin-right: 0px;
+                font-size: 16px;
+            }
+
+            input.di {
+                width: 87.25%;
+            }
+
+            #title {
+                width: 97.5%;
+                margin: 8px;
+                font-size: 32px;
+            }
+
+            .add, .delete {
+                border-radius: 50%;
+                border: 1px solid black;
+                width: 24px;
+                height: 24px;
+                font-size: 16px;
+                color: white;
+                cursor: pointer;
+                margin-left: 12px;
+            }
+
+            .add {
+                padding-left: 4px;
+                background-color: #00ff00;
+            }
+
+            .delete {
+                padding-left: 2.5px;
+                background-color: red;
+            }
+
+            span.order {
+                font-size: 16px;
+                margin: 8px;
+                margin-right: -8px;
+            }
+
+            button.action {
+                background-color: white;
+                width: 97.5%;
+                border-radius: 8px;
+                font-size: 16px;
+                margin: 8px;
+            }
+        </style>
+        <script defer>
+            var ingredients = document.getElementsByClassName("ingredients")[0];
+            var directions = document.getElementsByClassName("directions")[0];
+
+            var countI = 1
+            var countD = 1;
+
+            window.onload = function() {
+                ingredients = document.getElementsByClassName("ingredients")[0];
+                directions = document.getElementsByClassName("directions")[0];
+
+                var ingArr = [<% for (let ingredient of ingredients) { %>
+                    {id : <%= ingredient.id %>, recipe_id : <%= ingredient.recipe_id %>, step : <%= ingredient.step %>, name : "<%= ingredient.name %>", amount : "<%= ingredient.amount %>"},
+                <% } %>];
+                
+                var dirArr = [<% for (let direction of directions) { %>
+                    {id : <%= direction.id %>, recipe_id : <%= direction.recipe_id %>, step : <%= direction.step %>, content : "<%= direction.content %>"},
+                <% } %>];
+
+                for (var i = 1; i < ingArr.length; i ++) {
+                    addIngredient(ingArr[i].name, ingArr[i].amount);
+                }
+                for (var i = 1; i < dirArr.length; i ++) {
+                    addDirection(dirArr[i].content);
+                }
+
+                document.getElementById("reset").addEventListener("click", function() {
+                    RESET();
+                })
+            }
+
+
+            function addIngredient(nameVal, amountVal) {
+                countI ++;
+
+                var span = document.createElement("span");
+                span.classList = `${countI} order`;
+                span.innerHTML = `${countI}.`;
+
+                var name = document.createElement("input");
+                name.name = `ingredient-${countI}`;
+                name.value = nameVal;
+                name.placeholder = `Ingredient (${countI})`;
+                name.type = "text";
+                name.required = true;
+
+                var amount = document.createElement("input");
+                amount.name = `amount-${countI}`;
+                amount.value = amountVal;
+                amount.placeholder = `Amount (${countI})`;
+                amount.type = "text";
+                amount.required = true;
+
+                var button = document.createElement("button");
+                button.classList = "delete glyphicon";
+                button.innerHTML = "&#xe020;"
+                button.name = countI;
+                button.type = "button";
+                button.addEventListener("click", deleteIngredient(countI));
+
+                ingredients.appendChild(span);
+                ingredients.appendChild(name);
+                ingredients.appendChild(amount);
+                ingredients.appendChild(button);
+
+                updateCount();
+            }
+
+            function addDirection(contentVal) {
+                countD ++;
+
+                var span = document.createElement("span");
+                span.classList = `${countD} order`;
+                span.innerHTML = `${countD}.`;
+
+                var content = document.createElement("input");
+                content.classList = "di";
+                content.name = `direction-${countD}`;
+                content.value = contentVal;
+                content.placeholder = `Direction (${countD})`;
+                content.type = "text";
+                content.required = true;
+
+                var button = document.createElement("button");
+                button.classList = "delete glyphicon";
+                button.innerHTML = "&#xe020;"
+                button.name = countD;
+                button.type = "button";
+                button.addEventListener("click", deleteDirection(countD));
+
+                directions.appendChild(span);
+                directions.appendChild(content);
+                directions.appendChild(button);
+
+                updateCount();
+            }
+
+            function deleteIngredient(target) {
+                return function() {
+                    for (var i = target; i < countI; i ++) {
+                        getI(i).value = getI(i+1).value;
+                        getA(i).value = getA(i+1).value;
+                    }
+                    ingredients.removeChild(getSpanI(countI));
+                    ingredients.removeChild(getI(countI));
+                    ingredients.removeChild(getA(countI));
+                    ingredients.removeChild(getDeleteI(countI));
+                    countI --;
+
+                    updateCount();
+                }
+            }
+
+            function deleteDirection(target) {
+                return function() {
+                    for (var i = target; i < countD; i ++) {
+                        getD(i).value = getD(i+1).value;
+                    }
+                    directions.removeChild(getSpanD(countD));
+                    directions.removeChild(getD(countD));
+                    directions.removeChild(getDeleteD(countD));
+                    countD --;
+
+                    updateCount();
+                }
+            }
+
+            function getSpanI(target) {
+                return document.getElementsByClassName(countI)[0];
+            }
+            function getI(target) {
+                return document.getElementsByName(`ingredient-${target}`)[0];
+            }
+            function getA(target) {
+                return document.getElementsByName(`amount-${target}`)[0];
+            }
+            function getDeleteI(target) {
+                return document.getElementsByName(countI)[0];
+            }
+
+            function getSpanD(target) {
+                return directions.getElementsByClassName("order")[target-1];
+            }
+            function getD(target) {
+                return document.getElementsByName(`direction-${target}`)[0];
+            }
+            function getDeleteD(target) {
+                return directions.getElementsByTagName("button")[target-1];
+            }
+
+            function updateCount() {
+                document.getElementsByName("countI")[0].value = countI;
+                document.getElementsByName("countD")[0].value = countD;
+            }
+        
+            function RESET() {
+                var delI = deleteIngredient(countI);
+                var delD = deleteDirection(countD);
+                while (countI > 1) {
+                    delI();
+                }
+                while (countD > 1) {
+                    delD();
+                }
+                document.getElementsByName("ingredient-1")[0].value = "";
+                document.getElementsByName("amount-1")[0].value = "";
+                document.getElementsByName("direction-1")[0].value = "";
+            }
+        </script>
     </head>
 
     <body>
+
+        <header>
+            <a href = "/" style = "position: fixed; font-size: 32px;">&#8592;Recipe App</a>
+        </header>
         
-        <form action = "/edit" method = "post">
+        <form action = "/edit/<%= recipe.id %>" method = "post">
             <input value = "<%= recipe.title %>" type = "text" name = "title" id = "title" placeholder = "Title" required>
             <br><br>
             <section class = "ingredients">
                 <span class = "1 order">1.</span>
-                <input name = "ingredient-1" placeholder = "Ingredient (1)" type = "text" required>
-                <input name = "amount-1" placeholder = "Amount (1)" type = "text" required>
-                <button class = "add" onclick = "addIngredient()" type = "button"><span class="glyphicon glyphicon-plus"></span></button>
+                <input name = "ingredient-1" value = "<%= ingredients[0].name %>" placeholder = "Ingredient (1)" type = "text" required>
+                <input name = "amount-1" value = "<%= ingredients[0].amount %>" placeholder = "Amount (1)" type = "text" required>
+                <button class = "add" onclick = "addIngredient('', '')" type = "button"><span class = "glyphicon glyphicon-plus"></span></button>
             </section>
             <br>
             <section class = "directions">
                 <span class = "1 order">1.</span>
-                <input name = "direction-1" class = "di" placeholder = "Direction (1)" type = "text" required>
-                <button class = "add" onclick = "addDirection()" type = "button"><span class = "glyphicon glyphicon-plus"></span></button>
+                <input name = "direction-1" value = "<%= directions[0].content %>" class = "di" placeholder = "Direction (1)" type = "text" required>
+                <button class = "add" onclick = "addDirection('')" type = "button"><span class = "glyphicon glyphicon-plus"></span></button>
             </section>
             <br>
-            <button type = "button" class = "action" style = "color: red; border: 1px solid red;" onclick = "location.reload()">RESET</button>
-            <button type = "submit" class = "action" style = "color: blue; border: 1px solid blue;">CREATE</button>
+            <button type = "button" class = "action" id = "reset" style = "color: red; border: 1px solid red;">RESET</button>
+            <button type = "submit" class = "action" style = "color: blue; border: 1px solid blue;">UPDATE</button>
         
             <input name = "countI" value = <%= countI %> style = "visibility: hidden; position: fixed;" type = "number">
             <input name = "countD" value = <%= countD %> style = "visibility: hidden; position: fixed;" type = "number">

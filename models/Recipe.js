@@ -29,4 +29,8 @@ module.exports = class Recipe {
     static deleteById(id) {
         pool.query("DELETE FROM recipes WHERE id = $1", [id]);
     }
+
+    static edit(id, title) {
+        pool.query("UPDATE recipes SET title = $1, time = $2 WHERE id = $3", [title, Date.now(), id]);
+    }
 }

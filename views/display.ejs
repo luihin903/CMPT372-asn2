@@ -9,12 +9,12 @@
 
     <body>
         <table>
-            <th><td>Saved Recipes</td></th>
+            <th>Saved Recipes</th>
             <% recipes.forEach(function(recipe) { %>
                 <tr><td><a href = "/recipe/<%= recipe.id %>"><%= recipe.title %></a></td></tr>
             <% }); %>
         </table>
-        <a href = "/create"><button>CREATE</button></a>
+        <div><a href = "/create"><button>CREATE</button></a></div>
     </body>
 
 </html>

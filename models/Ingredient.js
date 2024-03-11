@@ -25,4 +25,8 @@ module.exports = class Ingredient {
         return res.rows;
     }
 
+    static async deleteByRecipe(id) {
+        pool.query("DELETE FROM ingredients WHERE recipe_id = $1", [id]);
+    }
+
 }

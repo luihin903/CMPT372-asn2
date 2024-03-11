@@ -8,4 +8,22 @@ table, td {
     border-collapse: collapse;
     width: 50%;
     margin: auto;
+    padding: 4px;
+    margin-top: 16px;
+}
+
+div {
+    width: 50%;
+    margin: auto;
+}
+
+button {
+    width: 100%;
+    font-size: 32px;
+    margin-top: 16px;
+    background-color: white;
+    color: blue;
+    border: 1px solid blue;
+    border-radius: 8px;
+    cursor: pointer;
 }
