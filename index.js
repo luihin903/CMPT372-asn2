@@ -5,6 +5,7 @@ const Recipe = require("./models/Recipe");
 const Ingredient = require("./models/Ingredient");
 const Direction = require("./models/Direction");
 const { Pool } = require("pg");
+const helper = require("./controllers/helper");
 
 const PORT = 3000;
 const app = express();
@@ -25,7 +26,14 @@ app.get("/recipe/:id", async(req, res) => {
     var ingredients = await Ingredient.getByRecipe(req.params.id);
     var directions = await Direction.getByRecipe(req.params.id);
     
-    return res.render("detail", {"recipe" : recipe, "ingredients" : ingredients, "directions" : directions});
+    var time = helper.formatTime(recipe.time);
+
+    return res.render("detail", {"recipe" : recipe, "ingredients" : ingredients, "directions" : directions, "time" : time});
+})
+
+app.get("/delete/:id", async(req, res) => {
+    await Recipe.deleteById(req.params.id);
+    return res.redirect("/");
 })
 
 app.get("/create", (req, res) => {

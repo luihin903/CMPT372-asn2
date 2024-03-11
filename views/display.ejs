@@ -4,13 +4,16 @@
     <head>
         <meta charset = "UTF-8">
         <title>Recipe App</title>
+        <link rel = "stylesheet" href = "display.css">
     </head>
 
     <body>
-        <% recipes.forEach(function(recipe) { %>
-            <a href = "/recipe/<%= recipe.id %>"><%= recipe.title %></a>
-        <% }); %>
-        <br>
+        <table>
+            <th><td>Saved Recipes</td></th>
+            <% recipes.forEach(function(recipe) { %>
+                <tr><td><a href = "/recipe/<%= recipe.id %>"><%= recipe.title %></a></td></tr>
+            <% }); %>
+        </table>
         <a href = "/create"><button>CREATE</button></a>
     </body>
 

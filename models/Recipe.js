@@ -25,4 +25,8 @@ module.exports = class Recipe {
         var res = await pool.query("SELECT * FROM recipes WHERE id = $1", [id]);
         return res.rows[0];
     }
+
+    static deleteById(id) {
+        pool.query("DELETE FROM recipes WHERE id = $1", [id]);
+    }
 }
